@@ -1,0 +1,5 @@
+click
+langchain
+langchain-ollama
+presidio-analyzer
+presidio-anonymizer
