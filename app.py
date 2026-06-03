@@ -78,6 +78,10 @@ def main():
         anonymizer = presidio_anonymize
     elif args.sanitizer == 'llm':
         anonymizer = llm_anonymize
+    elif args.sanitizer == 'both':
+        anonymizer = lambda x: llm_anonymize(presidio_anonymize(x))
+    elif args.sanitizer == 'none':
+        anonymizer = lambda x: x
     else:
         print('Sanitizer not recognized!')
         return 1
