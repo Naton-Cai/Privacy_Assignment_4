@@ -6,17 +6,15 @@ This repository include our main implementation of Pseudonymization using Local 
 
 ### Dependencies
 
-- Run with the lastest version of Python
-- The Pseudonymization implementation requires you to preinstall a Gemma4 Ollama model to function
-
 ```
-pip install -r requirements.txt
+uv init --bare
+uv add -r requirements.txt
 ```
 
 ### Run the Pseudonymization
 
 ```
-python app.py
+uv run app.py
 
 ```
 
