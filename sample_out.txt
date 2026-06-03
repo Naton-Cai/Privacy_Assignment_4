@@ -1,8 +1,71 @@
---- original text ---
-Draft a professional email addressed to Alex Rodriguez in regards to another employee, Sarah Collins. Inform him that Sarah is going to be MIA for a while, due to recent health complications, and that she will be staying at the Portland Clinic for at least a few months. Let Alex know that he needs to update her HR records (her employee ID is 0048812) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be 77 River Road, Springfield, IL 62704. Finally, sign the email with my name, David Kim, and my cell, (212)555-7890.
+> app.py presidio
+```
+Running presidio anonymizer on example text...
+Finished after 1.12 seconds.
 
---- presidio text ---
-Draft a professional email addressed to <PERSON> in regards to another employee, <PERSON>. Inform him that <PERSON> is going to be MIA for a while, due to recent health complications, and that she will be staying at the Portland Clinic for <DATE_TIME>. Let <PERSON> know that he needs to update her HR records (her employee ID is <DATE_TIME>) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be <LOCATION>, <LOCATION>, IL 62704. Finally, sign the email with my name, <PERSON>, and my cell, <PHONE_NUMBER>.
+--- Original Text ---
+Draft a professional email addressed to Alex Rodriguez in regards to another employee, Sarah Collins. Inform him that Sarah is going to be MIA for a while, due to recent health complications, and that she will be staying at the Monroe Clinic for at least a few months. Let Alex know that he needs to update her HR records (her employee ID is 0048812) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be 77 River Road, Springfield, IL 62704. Finally, sign the email with my name, David Kim, and my cell, (212)555-7890.
 
---- gemma4 text ---
-Draft a professional email addressed to <PERSON_A> in regards to another employee, <PERSON_B>. Inform him that <PERSON_B> is going to be MIA for a while, due to recent health complications, and that she will be staying at the <LOCATION_A> for at least a few months. Let <PERSON_A> know that he needs to update her HR records (her employee ID is <ID_NUMBER_A>) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be <ADDRESS_A>. Finally, sign the email with <PERSON_C>, and my cell, <PHONE_NUMBER_B>.
+--- Anonymized Text ---
+Draft a professional email addressed to <PERSON> in regards to another employee, <PERSON>. Inform him that <PERSON> is going to be MIA for a while, due to recent health complications, and that she will be staying at <LOCATION> for <DATE_TIME>. Let <PERSON> know that he needs to update her HR records (her employee ID is <DATE_TIME>) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be <LOCATION>, <LOCATION>, IL 62704. Finally, sign the email with my name, <PERSON>, and my cell, <PHONE_NUMBER>.
+
+Sending anonymized text to LLM...
+--- LLM Response ---
+**Subject:** Urgent HR Update: Medical Leave of Absence for [Employee Name]
+
+Dear [PERSON],
+
+I am writing to inform you that [Employee Name] will be taking a medical leave of absence for an extended period due to recent health complications.
+
+For your records, she will be staying at [LOCATION] through [DATE_TIME].
+
+To ensure her employment records are accurate and up to date, could you please take the following actions in the HR system?
+
+*   **Update Leave Status:** Please update her records to reflect that she is on medical leave.
+*   **Employee ID:** Her employee ID is [DATE_TIME].
+*   **Home Address Update:** Please ensure her recorded home address is updated to: [LOCATION], [LOCATION], IL 62704.
+
+Please let me know if you require any additional documentation or information from my end to process these changes.
+
+Thank you very much for your prompt attention to this matter.
+
+Best regards,
+
+[PERSON]
+[PHONE_NUMBER]
+```
+
+> app.py llm
+```
+Running llm anonymizer on example text...
+Finished after 33.00 seconds.
+
+--- Original Text ---
+Draft a professional email addressed to Alex Rodriguez in regards to another employee, Sarah Collins. Inform him that Sarah is going to be MIA for a while, due to recent health complications, and that she will be staying at the Monroe Clinic for at least a few months. Let Alex know that he needs to update her HR records (her employee ID is 0048812) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be 77 River Road, Springfield, IL 62704. Finally, sign the email with my name, David Kim, and my cell, (212)555-7890.
+
+--- Anonymized Text ---
+Draft a professional email addressed to <PERSON_A> in regards to another employee, <PERSON_B>. Inform him that <PERSON_B> is going to be MIA for a while, due to recent health complications, and that she will be staying at the <LOCATION_A> for at least a few months. Let <PERSON_A> know that he needs to update her HR records (her employee ID is <ID_NUMBER_A>) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be <ADDRESS_A>. Finally, sign the email with my name, <PERSON_C>, and my cell, <PHONE_NUMBER_A>.
+
+Sending anonymized text to LLM...
+--- LLM Response ---
+**Subject:** Action Required: HR Update for <PERSON_B> - Medical Leave of Absence
+
+Dear <PERSON_A>,
+
+I am writing to inform you of an update regarding <PERSON_B>'s current status. Due to recent health complications, <PERSON_B> will be taking an extended medical leave of absence. She will be staying at <LOCATION_A> for at least the next few months.
+
+To ensure our records are accurate and that we handle her leave properly, I would greatly appreciate it if you could take the following actions within HR:
+
+1. **Update Leave Status:** Please update her HR records to reflect that she is on medical leave.
+2. **Employee ID:** Her employee ID is <ID_NUMBER_A>.
+3. **Update Address:** Please ensure her recorded home address is updated to the following: <ADDRESS_A>.
+
+Please let me know if you require any additional documentation or information from my end to process these changes.
+
+Thank you very much for your prompt attention to this matter.
+
+Best regards,
+
+<PERSON_C>
+<PHONE_NUMBER_A>
+```
