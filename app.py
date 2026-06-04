@@ -1,25 +1,19 @@
 import argparse
+import readline
 import time
 
 from langchain.chat_models import init_chat_model
 from langchain.messages import HumanMessage, SystemMessage, AIMessage
 from presidio_analyzer import AnalyzerEngine
 from presidio_anonymizer import AnonymizerEngine
-
-DEFAULT_TEXT = (
-    'Draft a professional email addressed to Alex Rodriguez in regards to another employee, Sarah Collins. '
-    'Inform him that Sarah is going to be MIA for a while, due to recent health complications, and that she will '
-    'be staying at the Monroe Clinic for at least a few months. Let Alex know that he needs to update her HR '
-    'records (her employee ID is 0048812) to reflect she is taking medical leave. Also, tell him to ensure her '
-    'recorded home address is up to date. It should be 77 River Road, Springfield, IL 62704. '
-    'Finally, sign the email with my name, David Kim, and my cell, (212)555-7890.'
-)
+import spacy
 
 LLM = init_chat_model(
     model='gemma4',
     model_provider='ollama',
     temperature=0
 )
+NLP = spacy.load('en_core_web_lg')
 
 def presidio_anonymize(text):
     analyzer = AnalyzerEngine()
@@ -65,48 +59,64 @@ def query_llm(prompt):
     ])
     return response.content
 
+def get_cosine(text1, text2):
+    return NLP(text1).similarity(NLP(text2))
+
 def main():
     # arg parser
     parser = argparse.ArgumentParser()
     parser.add_argument('sanitizer', help='Set to use either presidio or llm')
-    parser.add_argument('--text', default=DEFAULT_TEXT, help='Prompt to use for test')
     
     # parse from args
     args = parser.parse_args()
-    original_text = args.text
     if args.sanitizer == 'presidio':
         anonymizer = presidio_anonymize
     elif args.sanitizer == 'llm':
         anonymizer = llm_anonymize
     elif args.sanitizer == 'both':
         anonymizer = lambda x: llm_anonymize(presidio_anonymize(x))
-    elif args.sanitizer == 'none':
-        anonymizer = lambda x: x
     else:
         print('Sanitizer not recognized!')
         return 1
     
-    # test anonymizer
-    start_time = time.perf_counter()
-    print(f'Running {args.sanitizer} anonymizer on example text...')
-    anonymized_text = anonymizer(original_text)
-    elapsed = time.perf_counter() - start_time
-    print(f'Finished after {elapsed:.2f} seconds.\n')
-    print((
-        '--- Original Text ---\n'
-        f'{original_text}\n'
-        '\n'
-        '--- Anonymized Text ---\n'
-        f'{anonymized_text}\n'
-    ))
+    while True:
+        # cmd line
+        plaintext = input(f'{args.sanitizer}> ')
+        if plaintext[0] == '/':
+            match plaintext[1:]:
+                case 'exit':
+                    return
+                case _:
+                    print('Command not recognized!')
+                    continue
 
-    # test result on llm
-    print(f'Sending anonymized text to LLM...')
-    response = query_llm(anonymized_text)
-    print((
-        '--- LLM Response ---\n'
-        f'{response}\n'
-    ))
+        # test anonymizer
+        print('Running anonymizer on example text...')
+        start_time = time.perf_counter()
+        cleantext = anonymizer(plaintext)
+        elapsed = time.perf_counter() - start_time
+        print(f'Finished after {elapsed:.2f} seconds.')
+        print((
+            '--- Anonymized Text ---\n'
+            f'Cosine similarity: {get_cosine(plaintext, cleantext):0.5f}\n'
+            f'{cleantext}\n'
+        ))
+
+        # get user input
+        while (send := input(f'Send text to LLM? ').lower()[0]):
+            if send in ['y', 'n']:
+                break
+        
+        # test result on llm
+        if send == 'y':
+            print(f'Sending both texts to LLM...')
+            resp1 = query_llm(plaintext)
+            resp2 = query_llm(cleantext)
+            print((
+                '--- LLM Response ---\n'
+                f'Cosine similarity: {get_cosine(resp1, resp2):0.5f}\n'
+                f'{resp2}\n'
+            ))
    
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
