@@ -109,7 +109,7 @@ def main():
         
         # test result on llm
         if send == 'y':
-            print(f'Sending both texts to LLM...')
+            print(f'Sending text to LLM...')
             resp = query_llm(cleantext)
             print((
                 '--- LLM Response ---\n'
