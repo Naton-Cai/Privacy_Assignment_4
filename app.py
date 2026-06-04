@@ -110,12 +110,10 @@ def main():
         # test result on llm
         if send == 'y':
             print(f'Sending both texts to LLM...')
-            resp1 = query_llm(plaintext)
-            resp2 = query_llm(cleantext)
+            resp = query_llm(cleantext)
             print((
                 '--- LLM Response ---\n'
-                f'Cosine similarity: {get_cosine(resp1, resp2):0.5f}\n'
-                f'{resp2}\n'
+                f'{resp}\n'
             ))
    
 if __name__ == '__main__':

@@ -1,29 +1,5 @@
 Draft a professional email addressed to Alex Rodriguez in regards to another employee, Sarah Collins. Inform him that Sarah is going to be MIA for a while, due to recent health complications, and that she will be staying at the Monroe Clinic for at least a few months. Let Alex know that he needs to update her HR records (her employee ID is 0048812) to reflect she is taking medical leave. Also, tell him to ensure her recorded home address is up to date. It should be 77 River Road, Springfield, IL 62704. Finally, sign the email with my name, David Kim, and my cell, (212)555-7890.
 
-presidio
-input similarity: 0.94464
-output similarity: 0.98009
+Write me a line of Python code that adds a user to the `users` table in my sqlite3 database using the variable `conn` and the details `{"name": "Jessica Albright", "email": "jalbright_88@yahoo.com", "phone": "206-555-0198", "home_address": "902 Pine St, Seattle WA 98101"}`.
 
-llm
-input similarity: 0.95692
-output similarity: 0.98328
-
-I am trying to run this SQL query to update our user database but it keeps giving me a syntax error near the WHERE clause. Can you fix it? Here is the query: UPDATE users SET status = active WHERE email = vancejoy779@gmail.com AND ssn = 557-28-7520;
-
-presidio
-input similarity: 0.98970
-output similarity: 0.98385
-
-llm
-input similarity: 0.98970
-output similarity: 0.99128
-
-Help me find health clinics that are covered by United and are within a 10 minute drive from my house (620 N 4th Street, Mitchell, SD 57301). I need clinics that have doctors specializing in prenatal care.
-
-presidio
-input similarity: 0.98970
-output similarity: 0.98385
-
-llm
-input similarity: 0.98970
-output similarity: 0.99128
+Generate me a message to my doctor's office letting them know my coverage is changing over to United. My new member ID is 0012494, and to find my account the last 4 digits of my SSN is 1553 and my birthday is June 3rd. Also, ask if they can check if my prescription for Metformin is still covered.
